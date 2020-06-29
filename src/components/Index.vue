@@ -8,7 +8,6 @@
                 <ChatInfo></ChatInfo>
             </el-main>
         </el-container>
-
         <addUser></addUser>
     </div>
 </template>

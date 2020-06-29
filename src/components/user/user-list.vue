@@ -1,15 +1,16 @@
 <template>
     <div>
-        <template v-for="friend of friends">
-            <div :key="friend.Name" :class="{'active': isActive(friend)}" @click="upadteUser(friend)" class="item">
+        <template v-for="user of getFriends">
+            <div :key="user.ID" :class="{'active': isActive(user)}"  @click="upadteUser(user)" class="item">
                 <div class="item-left">
                     <img class="img" src="./user.jpeg">
                 </div>
+
                 <div class="item-right">
                     <div class="title"> 
-                        <div> {{friend.Name}} </div>
+                        <div> {{user.ID}} </div>
                     </div>
-                    <div class="content">{{friend.LastMessage}}</div>
+                    <div class="content">{{user.LastMessage}}</div>
                 </div>
             </div>
         </template>
@@ -19,26 +20,27 @@
 <script>
 export default {
     name: 'userList',
-    data: function() {
-        return {
-            friends: [],
-        }
-    },
+
     methods: {
         upadteUser: function(user) {
-            // this.$store.commit('updateCurrentUser', {
-            //     user: user
-            // })
+            this.$store.commit('setCurrentUser', user)
         },
+
         isActive: function(user) {
             return this.$store.state.currentUser.Name === user.Name;
         }
     },
+
     created: async function() {
-        this.friends = (await this.$store.dispatch('getAllFriends')).data[0];
-        // this.$store.commit('updateCurrentUser', {
-        //     user: this.friends[0]
-        // })
+        let friends = (await this.$store.dispatch('getAllFriends')).data[0]
+        this.$store.commit('setCurrentUser', friends[0])
+        this.$store.commit('updateUses', friends)
+    },
+
+    computed: {
+        getFriends: function() {
+            return this.$store.state.users
+        }
     }
 }
 </script>

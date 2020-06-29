@@ -6,9 +6,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
         user: {},
-        active: false,
-        // currentUser: {},
         users: [],
+        currentUser: {},
+
+        active: false,
         ws: {},
 
         /*
@@ -20,16 +21,22 @@ export default new Vuex.Store({
     },
     
 	mutations: {
-        // updateSessionUser: function({},  payload) {
-        //     this.state.user = Object.assign({}, payload)
-        // },
+        updateSessionUser: function({commit},  payload) {
+            this.state.user = Object.assign({}, JSON.parse(payload))
+        },
 
-        // updateCurrentUser: function({}, payload) {
-        //     this.state.currentUser = Object.assign({}, payload.user)
-        // },
+        setCurrentUser: function({commit}, payload) {
+            if (payload.ID !== this.state.currentUser.ID) {
+                this.state.currentUser = Object.assign({}, payload)
+            }
+        },
 
-        createWs: function() {
-            this.state.ws = new WebSocket("ws://localhost:9999/event?id=" + this.state.user.user.Name);
+        updateUses: function({commit}, payload) {
+            this.state.users = payload
+        },
+
+        createWs: function({commit}, payload) {
+            this.state.ws = new WebSocket("ws://localhost:9999/event?id=" + JSON.parse(payload).Name);
             
             this.state.ws.onmessage = function(msg) {
                 console.log(msg.data)
@@ -43,33 +50,34 @@ export default new Vuex.Store({
     
     actions: {
         login: async function({context}, payload) {
-            /*
-                用户登录成功后，则建立一条全局ws通道，来接收收到的消息提示
-            */
-            return Vue.axios.post('/api/login', {...payload})
+            // 用户登录成功后，则建立一条全局ws通道，来接收收到的消息提示
+            return Vue.axios.post('/api/login', Object.assign({}, payload))
         },
 
         registry: async function({context}, payload) {
-            return Vue.axios.post('/api/registry', {...payload})
+            return Vue.axios.post('/api/registry', Object.assign({}, payload))
         },
 
         getAllFriends: async function() {
-            return Vue.axios.get('/api/friends/1');
+            return Vue.axios.get('/api/friends/' + this.state.user.ID)
         },
 
         searchUsers: async function({context}, payload) {
-            return Vue.axios.get('/api/users/' + payload.search);
+            return Vue.axios.get('/api/search/users/' + payload.search)
         },
 
         addFriend: async function({context}, payload) {
-            debugger;
-            return Vue.axios({
-                method: 'post',
-                url: '/api/friends/' + payload.value,
-                headers: {
-                    'userID': 1
-                }
-            })
+            if (payload.key === 'Rooms') {
+                return Vue.axios.post('/user/' + this.state.user.ID + '/room/' + payload.value)
+            } else {
+                return Vue.axios({
+                    method: 'post',
+                    url: '/api/friends/' + payload.value,
+                    headers: {
+                        'userID': this.state.user.ID
+                    }
+                })
+            }
         },
 
         createGroup: function({context}, payload) {
@@ -80,21 +88,22 @@ export default new Vuex.Store({
             return Vue.axios.delete('/api/delete-group/' + payload.groupID)
         },
 
-        sendMessage: async function({context}, payload) {
-            /*
-                send: this.$store.user.useID,
-                receiver: {
-                    type: user/group,
-                    instanceID: useID/groupID,
+        getMessage: async function({context}, payload) {
+            let config = {
+                headers: {
+                    'userID': this.state.user.ID,
                 }
-                content:
-            */
+            }
+            return Vue.axios.get('/api/messages/' + payload.ID, config)
+        },
 
-            /*
-                receiver: 1,
-                content: this.value
-            */
-            return Vue.axios.post('/api/sendmessage', payload)
+        sendMessage: async function({context}, payload) {
+            let config = {
+                headers: {
+                    'userID': this.state.user.ID,
+                }
+            }
+            return Vue.axios.post('/api/sendMessage', payload, config)
         }
     }
 })

@@ -4,19 +4,23 @@
             <div>添加用户</div>
             <div class="el-icon-close" @click="closeModal"></div>
         </div>
-        <el-input placeholder="请输入内容" v-model="value">
-            <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
+        <el-input placeholder="请输入内容"
+            v-model="value"
+            v-on:input="inputEvent"
+            clearable>
         </el-input>
         <div class="modal-item">
-            <template v-for="user of users">
-                <div class="user-list" :key="user.Name">
-                    <div>{{ user.Name }}</div>
-                    <button @click="addFriend(user)">add friend</button>
-                </div>
+            <template v-for="key in attrs">
+                <template v-for="object of usersAndRooms[key]">
+                    <div class="user-list" :key="object.ID">
+                        <div>{{ object.Name }}</div>
+                        <el-button type="primary" 
+                            @click="addFriend(key, object)">添加好友</el-button>
+                    </div>
+                </template>
             </template>
-            <div v-if="!users.length">
-                暂无查询用户
-            </div>
+
+            <div v-if="!emptyObjects">暂无查询结果</div>
         </div>
     </div>
 </template>
@@ -24,44 +28,52 @@
 <script>
 export default {
     name: 'AddUSer',
+
     data: function() {
         return {
             value: '',
-            users: [],
-            normalUsers: [],
-            group: [],
-            active: true
+            attrs: ['Users', 'Rooms'],
+            usersAndRooms: {},
+            active: true,
         }
     },
+
     methods: {
-        searchUser: async function() {
-            try {
-                this.users = (await this.$store.dispatch('searchUsers', {
-                    search: this.value
-                })).data;
-            } catch (e) {
-                this.users = []
+        inputEvent: async function() {
+            if (this.value !== '') {
+                await this.searchUser()
+            } else {
+                this.usersAndRooms = {}
             }
         },
 
-        sortUser: function() {
-            this.users.forEach(user => {
-                if (user.Type === 'user') {
-                    this.normalUsers.push(user)
-                } else {
-                    this.group.push(user)
-                }
-            })
+        searchUser: async function() {
+            try {
+                this.usersAndRooms = (await this.$store.dispatch('searchUsers', {
+                    search: this.value
+                })).data;
+            } catch (e) {
+                this.usersAndRooms = {}
+            }
         },
 
-        addFriend: async function(user) {
+        addFriend: async function(key, object) {
             await this.$store.dispatch('addFriend', {
+                key: key,
                 value: this.value
             })
         },
         
         closeModal:  function() {
             this.active = false;
+        }
+    },
+    
+    computed: {
+        emptyObjects: function() {
+            return this.attrs.some(key => {
+                return this.usersAndRooms[key] && this.usersAndRooms[key].length
+            })
         }
     }
 }
@@ -70,12 +82,12 @@ export default {
 <style scoped>
 .modal-box {
     width: 50%;
-    height: 50%;
+    max-height: 50%;
     position: fixed;
     top: 100px;
     background-color:white;
     border: 1px solid;
-    padding: 0 20px;
+    padding: 20px 20px;
 }
 
 .modal-header {
@@ -86,11 +98,14 @@ export default {
 }
 
 .modal-item {
+    max-height: 150px;
     padding: 20px 20px;
+    overflow-y: auto;
 }
 
 .user-list {
     display: flex;
     justify-content: space-between;
+    padding: 5px 20px;
 }
 </style>

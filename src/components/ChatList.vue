@@ -9,9 +9,9 @@
                     <span class="el-dropdown-link">
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
+
                     <span> {{ getSessionName }}</span>
 
-                    <button @click="addUser">addUser</button>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item icon="el-icon-plus" @click="logout">logout</el-dropdown-item>
                         <el-dropdown-item icon="el-icon-plus" @click="addUser">add user</el-dropdown-item>
@@ -30,12 +30,14 @@ import userList from './user/user-list.vue'
 
 export default {
     name: 'ChatList',
+
     data: function() {
         return {
             url: "./webwxgetmsgimg.jpeg",
             addUserActive: false
         }
     },
+
     methods: {
         logout: function() {
             window.location = '/#/';
@@ -45,12 +47,13 @@ export default {
             this.addUserActive = true
         }
     },
+
     computed: {
         getSessionName: function() {
             return JSON.parse(this.$session.get('user')).Name;
-            // return this.$store.state.user.user.Name;
         }
     },
+
     components: {
         userList,
     }

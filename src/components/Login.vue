@@ -36,7 +36,6 @@ export default {
             loginActive: true,
         }
     },
-
     methods: {
         login: async function() {
             try {
@@ -44,21 +43,18 @@ export default {
                     name: this.name,
                     password: this.password
                 })
-
+                
                 this.$session.start()
                 this.$session.set("user", JSON.stringify(value.data[0]))
-                
-                // this.$store.commit('updateSessionUser', {
-                //     user: value.data[0]
-                // })
 
-                 this.$store.commit('createWs', {})
+                this.$store.commit('updateSessionUser', this.$session.get('user'))
+                this.$store.commit('createWs', this.$session.get('user'))
+
                 window.location = '/#/index'
             } catch (e) {
                 this.$message.error('登录失败，请重新登录', e)
             }
         },
-        
         registry: function() {
             if (this.loginActive) {
                 this.loginActive = false;
@@ -77,7 +73,6 @@ export default {
                 this.$message.error('注册失败', e)
             }
         },
-
         cancel: function() {
             this.loginActive = true;
         }

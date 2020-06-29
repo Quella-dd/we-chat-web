@@ -1,7 +1,7 @@
 <template>
     <div class="message-body">
         <!-- message 实例， 根据message的属性判断是否是当前用户所发出的判断message显示的未知（左/右） -->
-        <template v-for="message of messages">
+        <template v-for="message of getMessages">
             <div class="item-default" v-bind:class="{'item-right': getPosition(message)}"  v-bind:key="message.ID">
                 <div class="message-item">
                     <div>
@@ -20,9 +20,9 @@
     暂时不考虑数据的存储, 在固定的时间内，如果request 请求没有成功，则标记该消息为发送失败
     暂时所有的聊天记录保存在客户端缓存中
 */
-
 export default {
     name: 'UserInfo',
+
     data: function() {
         return {
             userID: 2,
@@ -44,6 +44,16 @@ export default {
     methods: {
         getPosition: function(msg) {
             return msg.userID === this.userID
+        }
+    },
+
+    created: async function() {
+        let messages = (await this.$store.dispatch('getMessage', this.$store.state.currentUser.ID)).data
+    },
+
+    computed: {
+        getMessages: async function() {
+            let messages = (await this.$store.dispatch('getMessage'), this.$store.state.currentUser.ID).data
         }
     }
 }

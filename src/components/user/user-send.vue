@@ -27,10 +27,11 @@ export default {
     methods: {
         sendMesage: function() {
             this.$store.dispatch('sendMessage', {
-                // SourceName: this.$store.state.currentUser.Name,
-               SourceName: JSON.parse(this.$session.get('user')).Name,
-               content: this.value
+               SourceID: JSON.parse(this.$session.get('user')).ID,
+               DestID: this.$store.state.currentUser.ID,
+               Body: this.value
             })
+
             console.log("ready to send message", this.value)
             this.cleanInputMessage();
         },
