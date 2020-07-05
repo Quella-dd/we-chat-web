@@ -11,7 +11,7 @@
                     </span>
 
                     <span> {{ getSessionName }}</span>
-
+                    <button @click="addUser">add</button>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item icon="el-icon-plus" @click="logout">logout</el-dropdown-item>
                         <el-dropdown-item icon="el-icon-plus" @click="addUser">add user</el-dropdown-item>
@@ -19,7 +19,10 @@
                 </el-dropdown>
             </div>
         </div>
-        <div>
+
+        <AddUSer v-show="addUserActive" v-on:closeme="addUser"></AddUSer>
+
+        <div class="body">
             <userList></userList>
         </div>
     </div>
@@ -27,6 +30,7 @@
 
 <script>
 import userList from './user/user-list.vue'
+import AddUSer from './user/add.vue'
 
 export default {
     name: 'ChatList',
@@ -44,7 +48,7 @@ export default {
         },
 
         addUser: function() {
-            this.addUserActive = true
+            this.addUserActive = !this.addUserActive
         }
     },
 
@@ -56,6 +60,7 @@ export default {
 
     components: {
         userList,
+        AddUSer
     }
 }
 </script>
@@ -74,5 +79,9 @@ export default {
 .header .icon img {
     height: 40px;
     width: 40px;
+}
+
+.body {
+    border: 1px solid red;
 }
 </style>

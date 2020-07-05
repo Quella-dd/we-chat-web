@@ -5,10 +5,9 @@
                 <div class="item-left">
                     <img class="img" src="./user.jpeg">
                 </div>
-
                 <div class="item-right">
                     <div class="title"> 
-                        <div> {{user.ID}} </div>
+                        <div> {{user.Name}} </div>
                     </div>
                     <div class="content">{{user.LastMessage}}</div>
                 </div>
@@ -47,11 +46,11 @@ export default {
 
 <style scoped>
 .item {
-    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border: 1px solid;
+    padding: 10px 20px 10px 20px;
 }
 
 .active {

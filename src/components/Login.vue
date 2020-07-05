@@ -44,11 +44,11 @@ export default {
                     password: this.password
                 })
                 
-                this.$session.start()
-                this.$session.set("user", JSON.stringify(value.data[0]))
+                let user = value.data[0]
+                sessionStorage.setItem('user', JSON.stringify(user))
 
-                this.$store.commit('updateSessionUser', this.$session.get('user'))
-                this.$store.commit('createWs', this.$session.get('user'))
+                this.$store.commit('updateSessionUser', user)
+                this.$store.commit('createWs', user)
 
                 window.location = '/#/index'
             } catch (e) {

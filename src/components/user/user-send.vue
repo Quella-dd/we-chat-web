@@ -5,7 +5,6 @@
 
         <!-- 输入框 -->
         <div class="message-content">
-            <div style="margin: 20px 0;"></div>
             <el-input type="textarea" v-model="value"></el-input>
         </div>
      
@@ -26,10 +25,17 @@ export default {
     },
     methods: {
         sendMesage: function() {
+            // this.$store.dispatch('sendMessage', {
+            //    SourceID: JSON.parse(this.$session.get('user')).ID,
+            //    DestID: this.$store.state.currentUser.ID,
+            //    Body: this.value
+            // })
+
             this.$store.dispatch('sendMessage', {
-               SourceID: JSON.parse(this.$session.get('user')).ID,
-               DestID: this.$store.state.currentUser.ID,
-               Body: this.value
+                Type: 0,
+                SourceID: JSON.parse(this.$session.get('user')).ID,
+                DestinationID: this.$store.state.currentUser.ID,
+                Content: this.value
             })
 
             console.log("ready to send message", this.value)
@@ -44,21 +50,18 @@ export default {
 
 
 <style scoped>
-.message-body
-{
+.message-body {
     border: 1px solid;
 }
-
 .message-action .textarea  {
     border: none;
 }
-
-.message-content {
-    
-}
-
 .message-send {
     display: flex;
     flex-direction: row-reverse;
+}
+
+.el-textarea__inner {
+    border: none;
 }
 </style>

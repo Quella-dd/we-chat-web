@@ -1,5 +1,5 @@
 <template>
-    <div v-show="active" class="modal-box">
+    <div class="modal-box">
         <div class="modal-header">
             <div>添加用户</div>
             <div class="el-icon-close" @click="closeModal"></div>
@@ -10,17 +10,13 @@
             clearable>
         </el-input>
         <div class="modal-item">
-            <template v-for="key in attrs">
-                <template v-for="object of usersAndRooms[key]">
-                    <div class="user-list" :key="object.ID">
-                        <div>{{ object.Name }}</div>
-                        <el-button type="primary" 
-                            @click="addFriend(key, object)">添加好友</el-button>
-                    </div>
-                </template>
+            <template v-for="user of users">
+                <div class="user-list" :key="user.ID">
+                    <div>{{ user.Name }}</div>
+                    <el-button type="primary" @click="addFriend(user)">添加好友</el-button>
+                </div>
             </template>
-
-            <div v-if="!emptyObjects">暂无查询结果</div>
+            <div v-if="!users.length">暂无查询结果</div>
         </div>
     </div>
 </template>
@@ -32,9 +28,7 @@ export default {
     data: function() {
         return {
             value: '',
-            attrs: ['Users', 'Rooms'],
-            usersAndRooms: {},
-            active: true,
+            users: [],
         }
     },
 
@@ -43,37 +37,27 @@ export default {
             if (this.value !== '') {
                 await this.searchUser()
             } else {
-                this.usersAndRooms = {}
+                this.users = []
             }
         },
 
         searchUser: async function() {
             try {
-                this.usersAndRooms = (await this.$store.dispatch('searchUsers', {
+                this.users = (await this.$store.dispatch('searchUsers', {
                     search: this.value
                 })).data;
             } catch (e) {
-                this.usersAndRooms = {}
+                this.users = []
             }
         },
 
-        addFriend: async function(key, object) {
-            await this.$store.dispatch('addFriend', {
-                key: key,
-                value: this.value
-            })
+        addFriend: async function(user) {
+            await this.$store.dispatch('addFriend', user.ID)
+            this.closeModal()
         },
         
-        closeModal:  function() {
-            this.active = false;
-        }
-    },
-    
-    computed: {
-        emptyObjects: function() {
-            return this.attrs.some(key => {
-                return this.usersAndRooms[key] && this.usersAndRooms[key].length
-            })
+        closeModal: function() {
+            this.$emit("closeme"); 
         }
     }
 }

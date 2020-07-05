@@ -8,22 +8,21 @@ import AddUSer from '@/components/user/add'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/index',
-      name: 'Index',
-      component: Index
-    },
-    
-    {
-      path: '/add-user',
-      name: 'AddUSer',
-      component: AddUSer
-    }
-  ]
+	routes: [
+	{
+		path: '/',
+		name: 'Login',
+		component: Login
+	},
+	{
+		path: '/index',
+		name: 'Index',
+		component: Index,
+		children: [{
+			path: '/add-user',
+			name: 'AddUSer',
+			component: AddUSer
+		}]
+	},
+	]
 })
