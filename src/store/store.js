@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+import PubSub from 'pubsub-js'
+
 export default new Vuex.Store({
 	state: {
         user: {},
@@ -31,7 +33,8 @@ export default new Vuex.Store({
             this.state.ws = new WebSocket("ws://localhost:9999/event?id=" + payload.ID);
             
             this.state.ws.onmessage = function(msg) {
-                console.log(msg.data)
+                PubSub.publish('refreshList', JSON.parse(msg.data))
+
             }
             
             this.state.ws.onopen = function() {

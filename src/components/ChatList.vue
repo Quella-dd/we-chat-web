@@ -19,9 +19,7 @@
                 </el-dropdown>
             </div>
         </div>
-
         <AddUSer v-show="addUserActive" v-on:closeme="addUser"></AddUSer>
-
         <div class="body">
             <userList></userList>
         </div>
@@ -54,7 +52,7 @@ export default {
 
     computed: {
         getSessionName: function() {
-            return JSON.parse(this.$session.get('user')).Name;
+            return JSON.parse(sessionStorage.getItem('user')).Name
         }
     },
 
@@ -82,6 +80,5 @@ export default {
 }
 
 .body {
-    border: 1px solid red;
 }
 </style>

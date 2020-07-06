@@ -31,20 +31,20 @@ export default {
 
 <style scoped>
 .body {
-    width: 50%;
-    margin-left: 25%;
+    width: 70%;
+    margin-left: 15%;
     height: 100%;
 }
 
 .el-container {
-    height: 100%;
+    height: 85%;
+    border: 1px solid;
 }
 
 .el-aside {
-    border: 1px solid red;
 }
 
 .el-main {
-    border: 1px solid red;
+    padding: 0;
 }
 </style>

@@ -2,22 +2,10 @@
     <div class="body">
         <el-header>
             {{ userName }}
-            <!-- <el-dropdown>
-                <span class="el-dropdown-link">
-                    <i class="el-icon-arrow-down el-icon--right">下拉菜单</i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>黄金糕</el-dropdown-item>
-                    <el-dropdown-item>狮子头</el-dropdown-item>
-                    <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown> -->
         </el-header>
-
         <el-main>
             <UserInfo></UserInfo>
         </el-main>
-
         <el-footer>
             <userSend></userSend>
         </el-footer>
@@ -42,18 +30,28 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .body {
     height: 100%;
     width: 100%;
     padding: 0;
     margin-left: 0;
 }
-.el-main {
-    height: 100%;
+.el-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-bottom: 1px solid;
 }
-.el-foot {
+
+.el-main {
+    padding: 0;
+    height: calc(100% - 142px);
+    overflow: auto;
+    border-bottom: 1px solid;
+}
+
+.el-footer {
     padding: 0;
 }
 </style>

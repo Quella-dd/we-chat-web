@@ -1,9 +1,7 @@
-<template>
-    <div class="message-body">
-        <!-- message 实例， 根据message的属性判断是否是当前用户所发出的判断message显示的未知（左/右） -->
-        <template v-for="message of this.getMessages()">
-            <!-- <div class="item-default" v-bind:class="{'item-right': getPosition(message)}"  v-bind:key="message.ID"> -->
-            <div class="item-default" v-bind:key="message.Create_At">
+<template :key="this.$store.state.currentUser.ID">
+    <div class="listBody">
+        <template v-for="message of messages">
+            <div class="item-default" v-bind:class="{'item-right': getPosition(message)}" v-bind:key="message.Create_At">
                 <div class="message-item">
                     <div>
                         <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
@@ -12,51 +10,66 @@
                 </div>
             </div>
         </template>
+        <div v-if="!messages.length" class="empty-message">no message to show</div>
     </div>
 </template>
 
 <script>
+import PubSub from 'pubsub-js'
+
 export default {
     name: 'UserInfo',
-
     data: function() {
         return {
             messages: [],
-            user: {},
+            user: JSON.parse(sessionStorage.getItem('user'))
         }
     },
-
     methods: {
         getPosition: function(msg) {
-            return msg.userID === this.user.ID
-        }
+            return msg.SourceID === this.user.ID
+        },
+
+        refreshMessages: async function() {
+            if (this.$store.state.currentUser && this.$store.state.currentUser.ID) {
+                this.messages = (await this.$store.dispatch('getMessage', this.$store.state.currentUser.ID)).data[0]
+                if (!this.messages) {
+                    this.messages = []
+                }
+            }
+        },
+
+        scrollToBottom: function() {
+            setTimeout(() => {
+                let container = document.getElementsByClassName('listBody')[0]
+                container.scrollTop = container.scrollHeight;
+            }, 0)
+        },
     },
 
     computed: {
-        getMessages: async function() {
-            if (this.user.ID) {
-                this.messages = (await this.$store.dispatch('getMessage', this.user.ID)).data[0]
-                this.messages = this.messages[0].Messages
-            }
-            return this.messages
+        getCurrentUser() {
+            return this.$store.state.currentUser
+        }
+    },
+
+    watch: {
+        getCurrentUser: async function(newVal, oldValue) {
+            await this.refreshMessages();
+            this.scrollToBottom()
         }
     },
 
     mounted: function() {
-        this.user = this.$store.state.currentUser
-    },
-
-    watch: function() {
-        
+        PubSub.subscribe('messageSend', this.refreshMessages)
+        this.scrollToBottom()
     }
 }
 </script>
 
 <style scoped>
-.message-body {
-    max-height: 80%;
-    overflow-y: auto;
-    border: 1px solid;
+.empty-message {
+    align-content: center;
 }
 
 .item-default {
@@ -71,11 +84,9 @@ export default {
     font-size: 12px;
     padding: 2px 10px;
     display: flex;
-    height: 35px;
-    border: 1px solid;
     align-items: center;
     margin-top: 10px;
-    background-color: darkcyan;
+    background-color: aliceblue;
     border-radius: 15px;
 }
 </style>

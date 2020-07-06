@@ -22,16 +22,16 @@
 </template>
 
 <script>
+import PubSub from 'pubsub-js'
+
 export default {
     name: 'AddUSer',
-
     data: function() {
         return {
             value: '',
             users: [],
         }
     },
-
     methods: {
         inputEvent: async function() {
             if (this.value !== '') {
@@ -40,7 +40,6 @@ export default {
                 this.users = []
             }
         },
-
         searchUser: async function() {
             try {
                 this.users = (await this.$store.dispatch('searchUsers', {
@@ -50,12 +49,11 @@ export default {
                 this.users = []
             }
         },
-
         addFriend: async function(user) {
             await this.$store.dispatch('addFriend', user.ID)
+            PubSub.publish('addUser');
             this.closeModal()
         },
-        
         closeModal: function() {
             this.$emit("closeme"); 
         }

@@ -1,9 +1,11 @@
 <template>
     <div>
         <template v-for="user of getFriends">
-            <div :key="user.ID" :class="{'active': isActive(user)}"  @click="upadteUser(user)" class="item">
+            <div :key="user.ID" :class="{'active': isActive(user)}"  @click="upadteUser(user)" class="user-item">
                 <div class="item-left">
-                    <img class="img" src="./user.jpeg">
+                    <el-badge :value="user.UnRead" class="item">
+                        <img class="img" src="./user.jpeg">
+                    </el-badge>
                 </div>
                 <div class="item-right">
                     <div class="title"> 
@@ -17,8 +19,16 @@
 </template>
 
 <script>
+import PubSub from 'pubsub-js'
+
 export default {
     name: 'userList',
+
+    data: function() {
+        return {
+            users: this.$store.state.users
+        }
+    },
 
     methods: {
         upadteUser: function(user) {
@@ -27,6 +37,25 @@ export default {
 
         isActive: function(user) {
             return this.$store.state.currentUser.Name === user.Name;
+        },
+
+        refreshList: async function(newData) {
+            let friends = (await this.$store.dispatch('getAllFriends')).data[0]
+            if (newData) {
+                friends.map(user => {
+                    if (user.ID === newData.SourceID) {
+                        user.LastMessage = newData.Content
+                        user.LatetUpdate = newData.CreateAt
+
+                        if (!user.UnRead) {
+                            user.UnRead = 0;
+                        } else {
+                            user.UnRead = parseInt(user.UnRead) + 1;
+                        }
+                    }
+                })
+            }
+            this.users = friends
         }
     },
 
@@ -36,25 +65,46 @@ export default {
         this.$store.commit('updateUses', friends)
     },
 
+    mounted: function() {
+        PubSub.subscribe('refreshList', (topic, data) => {
+            this.$notify({
+                title: '来自用户ＩＤ为' + data.SourceID + '的消息',
+                message: data.Content,
+                type: 'success'
+            });
+            
+            if (data.SourceID === this.$store.state.currentUser.ID) {
+                PubSub.publish('messageSend', {
+                    'Topic': topic,
+                    'Data': data
+                })
+            }
+            this.refreshList(data)
+        })
+
+        PubSub.subscribe('addUser', ()=> {
+            this.refreshList()
+        })
+    },
+
     computed: {
         getFriends: function() {
-            return this.$store.state.users
+            return this.users
         }
     }
 }
 </script>
 
 <style scoped>
-.item {
+.user-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid;
     padding: 10px 20px 10px 20px;
 }
 
 .active {
-    background-color: gray;
+    background-color: gainsboro;
 }
 
 .item-left {
@@ -75,8 +125,5 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.item-right .content {
 }
 </style>
