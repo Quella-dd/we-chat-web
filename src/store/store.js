@@ -34,7 +34,6 @@ export default new Vuex.Store({
             
             this.state.ws.onmessage = function(msg) {
                 PubSub.publish('refreshList', JSON.parse(msg.data))
-
             }
             
             this.state.ws.onopen = function() {

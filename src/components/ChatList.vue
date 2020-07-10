@@ -72,6 +72,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding: 5px;
+    border-bottom: 1px solid;
 }
 
 .header .icon img {

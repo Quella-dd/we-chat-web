@@ -2,6 +2,10 @@
     <div class="body">
         <el-header>
             {{ userName }}
+            <span class="el-dropdown-link" @click="toggle">
+                <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <Session v-show="active"></Session>
         </el-header>
         <el-main>
             <UserInfo></UserInfo>
@@ -15,16 +19,28 @@
 <script>
 import UserInfo from './user/UserInfo.vue'
 import userSend from './user/user-send.vue'
+import Session from './user/session.vue'
 
 export default {
 	name: 'ChatInfo',
 	components: {
 		UserInfo,
-		userSend
+        userSend,
+        Session
     },
     computed: {
         userName: function() {
             return this.$store.state.currentUser ? this.$store.state.currentUser.Name : 'default'
+        }
+    },
+    data: function() {
+        return {
+            active: false
+        }
+    },
+    methods: {
+        toggle: function() {
+            this.active = !this.active
         }
     }
 }
@@ -36,6 +52,7 @@ export default {
     width: 100%;
     padding: 0;
     margin-left: 0;
+    border-left: 1px solid;
 }
 .el-header {
     display: flex;
