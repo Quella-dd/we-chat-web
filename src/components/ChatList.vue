@@ -9,7 +9,6 @@
                     <span class="el-dropdown-link">
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-
                     <span> {{ getSessionName }}</span>
                     <button @click="addUser">add</button>
                     <el-dropdown-menu slot="dropdown">
@@ -35,7 +34,6 @@ export default {
 
     data: function() {
         return {
-            url: "./webwxgetmsgimg.jpeg",
             addUserActive: false
         }
     },
