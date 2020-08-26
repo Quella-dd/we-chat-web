@@ -17,28 +17,26 @@ export default {
                 audio: true, 
                 video: true
             },
+            video: {},
             pc: null
         }
     },
     methods: {
         start: function() {
-            let video = document.getElementById('stream')
-            navigator.getUserMedia(this.constraints, this.gotStream, function(err) {
-                console.log(err)
-            })
+            this.video = document.getElementById('stream')
+            navigator.mediaDevices.getUserMedia(this.constraints)
+                .then(this.gotLocalMediaStream).catch(this.handleLocalMediaStreamError);
         },
-        gotStream: function() {
-            this.pc = new RTCPeerConnection();
-            this.pc.addStream(stream); 
-            this.pc.createOffer(function(offer) { 
-                this.pc.setLocalDescription(offer); 
-            });  
+        gotLocalMediaStream: function(mediaStream) {
+            let localStream = mediaStream;
+            this.video.srcObject = mediaStream;
         },
-        logError: function() {
-
+        handleLocalMediaStreamError: function(error) {
+            console.log('navigator.getUserMedia error: ', error);
         },
         hangout: function() {
-
+            console.log("event: hangout")
+            this.video.pause();
         }
     }
 }
