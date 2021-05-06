@@ -12,9 +12,9 @@ import store from './store/store'
 
 import VueSession from 'vue-session'
 
-import WebRTC from 'vue-webrtc'
+// import WebRTC from 'vue-webrtc'
  
-Vue.use(WebRTC)
+// Vue.use(WebRTC)
 
 Vue.use(VueSession, {
     persist: true

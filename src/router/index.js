@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Login from '@/components/Login'
-import Index from '@/components/Index'
-import AddUSer from '@/components/user/add'
+Vue.use(Router)
+
+import Login from '@/views/login/index'
+import Index from '@/views/index'
+
+// import AddUSer from '@/views/user/add'
 
 Vue.use(Router)
 
@@ -18,11 +21,11 @@ export default new Router({
 		path: '/index',
 		name: 'Index',
 		component: Index,
-		children: [{
-			path: '/add-user',
-			name: 'AddUSer',
-			component: AddUSer
-		}]
+		// children: [{
+		// 	path: '/add-user',
+		// 	name: 'AddUSer',
+		// 	component: AddUSer
+		// }]
 	},
 	]
 })

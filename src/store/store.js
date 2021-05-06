@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
-import PubSub from 'pubsub-js'
+// import PubSub from 'pubsub-js'
 
 export default new Vuex.Store({
 	state: {
@@ -12,6 +12,7 @@ export default new Vuex.Store({
         currentUser: {},
         active: false,
         ws: {},
+        token: ''
     },
     
 	mutations: {
@@ -29,17 +30,17 @@ export default new Vuex.Store({
             this.state.users = payload
         },
 
-        createWs: function({commit}, payload) {
-            this.state.ws = new WebSocket("ws://localhost:9999/event?id=" + payload.ID);
+        // createWs: function({commit}, payload) {
+        //     this.state.ws = new WebSocket("ws://localhost:9999/event?id=" + payload.ID);
             
-            this.state.ws.onmessage = function(msg) {
-                PubSub.publish('refreshList', JSON.parse(msg.data))
-            }
+        //     this.state.ws.onmessage = function(msg) {
+        //         PubSub.publish('refreshList', JSON.parse(msg.data))
+        //     }
             
-            this.state.ws.onopen = function() {
-                console.log("open websocket")
-            }
-        }
+        //     this.state.ws.onopen = function() {
+        //         console.log("open websocket")
+        //     }
+        // }
     },
     
     actions: {
@@ -47,10 +48,12 @@ export default new Vuex.Store({
             return Vue.axios.post('/api/login', Object.assign({}, payload))
         },
 
-        registry: async function({context}, payload) {
-            return Vue.axios.post('/api/registry', Object.assign({}, payload))
+        register: async function({context}, payload) {
+            return Vue.axios.post('/api/register', Object.assign({}, payload))
         },
 
+
+        // Friends API
         getAllFriends: async function() {
             let user = JSON.parse(sessionStorage.getItem('user'))
             return Vue.axios({
@@ -60,10 +63,6 @@ export default new Vuex.Store({
                     'userID': user.ID
                 }
             })
-        },
-
-        searchUsers: async function({context}, payload) {
-            return Vue.axios.get('/api/search/users/' + payload.search)
         },
 
         addFriend: async function({context}, payload) {
@@ -77,14 +76,87 @@ export default new Vuex.Store({
             })
         },
 
-        createGroup: function({context}, payload) {
-            return Vue.axios.post('/api/create-group', payload.group)
+        deleteFriend: async function({context}, payload) {
+            let user = JSON.parse(sessionStorage.getItem('user'))
+            return Vue.axios({
+                method: 'delete',
+                url: '/api/friends/' + payload,
+                headers: {
+                    'userID': user.ID
+                }
+            })
         },
 
-        deleteGroup: function({context}, payload) {
-            return Vue.axios.delete('/api/delete-group/' + payload.groupID)
+        // Requests API
+        listRequests: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
         },
 
+        ackRequest: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        deleteRequest: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+
+        // Groups API
+        listGroups: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+        
+        createGroup: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+        
+        updateGroup: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        getGroup: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        deleteGroup: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+
+        // Group Actions
+        joinGroup: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        leaveGroup: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        // Sessions API
+        listSessions: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        createSession: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        getSession: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+        deleteSession: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+
+        // Search Users
+        searchUsers: async function({context}, payload) {
+            return Vue.axios.get('/api/search/users/' + payload.search)
+        },
+
+
+        // Send && Get messages from Session TODO
         getMessage: async function({context}, payload) {
             let user = JSON.parse(sessionStorage.getItem('user'))
             let config = {
