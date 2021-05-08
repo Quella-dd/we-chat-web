@@ -12,7 +12,6 @@
             <label class="item-label">请输入邮箱</label>
             <el-input v-model="email" placeholder="请输入内容"></el-input>
         </div>
-
         <div v-if="loginActive" class="item-foot">
             <el-button @click="login">登录</el-button>
             <el-button type="primary" @click="registry">注册</el-button>
@@ -51,7 +50,8 @@ export default {
             //     this.$store.commit('updateSessionUser', user)
             //     this.$store.commit('createWs', user)
 
-                window.location = '/#/index'
+                // window.location = '/#/index'
+                this.$router.push('/index')
             // } catch (e) {
             //     this.$message.error('登录失败，请重新登录', e)
             // }

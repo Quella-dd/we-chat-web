@@ -66,15 +66,11 @@ export default {
     z-index: 1000;
     top: 25%;
     left: 25%;
-
     width: 50%;
     max-height: 50%;
-
     position: fixed;
-
     background-color:white;
     padding: 20px 20px;
-
     border: 1px solid black;
 }
 

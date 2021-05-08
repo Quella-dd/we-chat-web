@@ -21,8 +21,5 @@ export default {
 	position: absolute;
     height: 100%;
     width: 100%;
-
-	padding-top: 60px;
-    padding-bottom: 60px;
 }
 </style>

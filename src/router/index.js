@@ -3,29 +3,50 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-import Login from '@/views/login/index'
-import Index from '@/views/index'
-
-// import AddUSer from '@/views/user/add'
-
-Vue.use(Router)
-
 export default new Router({
 	routes: [
 	{
 		path: '/',
 		name: 'Login',
-		component: Login
+		component: () => import(/* webpackChunkName: "system" */ '@/views/login/index.vue'),
 	},
 	{
 		path: '/index',
 		name: 'Index',
-		component: Index,
-		// children: [{
-		// 	path: '/add-user',
-		// 	name: 'AddUSer',
-		// 	component: AddUSer
-		// }]
+		component: () => import(/* webpackChunkName: "system" */ '@/views/index.vue'),
+
+		children: [
+			{
+				path: '/sessions',
+				name: 'sessions',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/session/index.vue'),
+				children: [
+					{
+						path: '/sessions/:id',
+						name: 'sessions', 
+						component: () => import(/* webpackChunkName: "system" */ '@/views/session/view/index')
+
+					},
+				]
+			},
+			{
+				path: '/users',
+				name: 'users',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/user/index.vue'),
+				children: [
+					{
+						path: '/users/:id',
+						name: 'users', 
+						component: () => import(/* webpackChunkName: "system" */ '@/views/user/views/view-profile')
+					}
+				]
+			},
+			{
+				path: '/add-users',
+				name: 'add-users',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/popup/add-friends.vue'),
+			},
+		]
 	},
 	]
 })

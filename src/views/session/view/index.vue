@@ -1,43 +1,44 @@
 <template>
     <div class="body">
         <el-header>
-            {{ userName }}
+            <span>admin</span>
+            <span> {{ getUserID }} </span>
             <span class="el-dropdown-link" @click="toggle">
                 <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
-            <Session v-show="active"></Session>
         </el-header>
         <el-main>
-            <UserInfo></UserInfo>
+            <sessionContent></sessionContent>
         </el-main>
         <el-footer>
-            <userSend></userSend>
+            <sessionSend></sessionSend>
         </el-footer>
     </div>
 </template>
 
 <script>
-import UserInfo from '../../user/UserInfo.vue'
-import userSend from '../../user/user-send.vue'
-import Session from '../../user/session.vue'
+import sessionContent from './session-content.vue'
+import sessionSend from './session-send.vue'
 
 export default {
-	name: 'ChatInfo',
 	components: {
-		UserInfo,
-        userSend,
-        Session
+		sessionContent,
+        sessionSend,
     },
-    computed: {
-        userName: function() {
-            return this.$store.state.currentUser ? this.$store.state.currentUser.Name : 'default'
-        }
-    },
+
     data: function() {
         return {
-            active: false
+            active: false,
+            userID: '',
         }
     },
+
+    computed: {
+        getUserID: function() {
+            return this.$route.params.id;
+        }
+    },
+
     methods: {
         toggle: function() {
             this.active = !this.active
