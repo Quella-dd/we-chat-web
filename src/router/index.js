@@ -4,8 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-	routes: [
-	{
+	routes: [{
 		path: '/',
 		name: 'Login',
 		component: () => import(/* webpackChunkName: "system" */ '@/views/login/index.vue'),
@@ -42,11 +41,15 @@ export default new Router({
 				]
 			},
 			{
+				path: '/requests',
+				name: 'requests',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/request/index.vue'),
+			},
+			{
 				path: '/add-users',
 				name: 'add-users',
 				component: () => import(/* webpackChunkName: "system" */ '@/views/popup/add-friends.vue'),
 			},
 		]
-	},
-	]
+	}]
 })

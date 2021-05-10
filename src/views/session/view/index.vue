@@ -2,10 +2,10 @@
     <div class="body">
         <el-header>
             <span>admin</span>
-            <span> {{ getUserID }} </span>
-            <span class="el-dropdown-link" @click="toggle">
+            <span> {{ this.session.DisplayName }} </span>
+            <!-- <span class="el-dropdown-link" @click="toggle">
                 <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
+            </span> -->
         </el-header>
         <el-main>
             <sessionContent></sessionContent>
@@ -28,21 +28,18 @@ export default {
 
     data: function() {
         return {
-            active: false,
-            userID: '',
-        }
-    },
-
-    computed: {
-        getUserID: function() {
-            return this.$route.params.id;
+            session: {}
         }
     },
 
     methods: {
-        toggle: function() {
-            this.active = !this.active
+        refreshSession: function() {
+            this.session = this.$store.state.session;
         }
+    },
+
+    mounted: function() {
+        this.refreshSession()
     }
 }
 </script>
