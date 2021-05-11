@@ -29,14 +29,17 @@ export default {
     methods: {
         async sendMessage() {
             await this.$store.dispatch('createSession', {
-                'Destination': `${this.$store.state.user.ID}`
+                'DestinationID': `${this.user.ID}`
             })
+            
             this.$router.push('/sessions')
         }
     },
 
     mounted: async function() {
-        this.user = await this.$store.dispatch('getUser', this.$store.state.user);
+        this.user = await this.$store.dispatch('getUser', {
+            'ID': this.$route.params.id
+        });
     }
 }
 </script>

@@ -50,6 +50,12 @@ export default new Router({
 				name: 'add-users',
 				component: () => import(/* webpackChunkName: "system" */ '@/views/popup/add-friends.vue'),
 			},
+			{
+				path: '/new-chat',
+				name: 'new-chat',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/popup/new-chat.vue'),
+			},
+			
 		]
 	}]
 })

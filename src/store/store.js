@@ -62,6 +62,7 @@ export default new Vuex.Store({
 		updateSession: function(state, payload) {
 			this.state.session = payload.session
 		}
+
 	},
     
 	actions: {
@@ -78,6 +79,21 @@ export default new Vuex.Store({
 			})
 		},
 
+		initWs: async function() {
+			let ws = new WebSocket('wss://localhost:10086/event')
+			ws.onmessage = function(msg) {
+				console.log(msg)
+			}
+
+			ws.onopen = function() {
+				console.log("websocket opened")
+			}
+			
+			ws.onerror = function(error) {
+				console.log(error)
+			}
+		},
+		
 		register: async function(context, payload) {
 			return Vue.axios.post('/api/register', payload)
 		},
@@ -175,13 +191,12 @@ export default new Vuex.Store({
 				return Vue.axios.get(`/api/userSearch/${payload.search}`)
 		},
 
-		// Send && Get messages from Session TODO
-		// getMessage: async function({context}, payload) {
-		// 	return Vue.axios.get('/api/messages/' + payload, config)
-		// },
-
 		sendMessage: async function(context, payload) {
 			return Vue.axios.post('/api/sendMessage', payload)
+		},
+
+		getMessages: async function(context, payload) {
+			return Vue.axios.get('/api/messages/' + payload.ID)
 		}
 	}
 })

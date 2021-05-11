@@ -79,37 +79,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.modal-box {
-    z-index: 1000;
-    top: 25%;
-    left: 25%;
-    width: 50%;
-    max-height: 50%;
-    position: fixed;
-    background-color:white;
-    padding: 20px 20px;
-    border: 1px solid black;
-}
-
-.modal-header {
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.modal-item {
-    min-height: 100px;
-    max-height: 150px;
-    padding: 20px 20px;
-    overflow-y: auto;
-}
-
-.user-list {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 20px;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
     <div class="pannel-body">
-        <div class="pannel-list">
-            <template v-for="session of getSessons">
+        <div v-if="sessions.length" class="pannel-list">
+            <template v-for="session of sessions">
                 <div :key="session.ID" :class="{'active': isActive(session)}"  @click="upadteSession(session)" class="user-item">
                     <div class="item-left">
                         <i class="ui-icon-50 ui-user-header"></i>
@@ -13,13 +13,16 @@
                         <div class="content">{{session.LatestContent}}</div>
                     </div>
                     <div>
-                        <button @click="deleteSession(session)">删除</button>
+                        <div class="ui-icon-20 ui-icon-delete" @click="deleteSession(session)"></div>
                     </div>
                 </div>
             </template>
         </div>
-        <div class="pannel-content">
-            <router-view></router-view>
+        <div v-if="sessions.length" class="pannel-content">
+            <router-view :key="key"></router-view>
+        </div>
+        <div v-if="!sessions.length" class="pannel-list">
+            <div>session列表为空</div>
         </div>
     </div>
 </template>
@@ -48,7 +51,6 @@ export default {
 
         refreshList: async function() {
             this.sessions = await this.$store.dispatch('listSessions')
-            console.log(this.session)
         },
 
         deleteSession: async function(session) {
@@ -60,10 +62,10 @@ export default {
     mounted: async function() {
         await this.refreshList()
     },
-
+  
     computed: {
-        getSessons: function() {
-            return this.sessions
+        key() {
+            return this.$route.name !== undefined? this.$route.name + new Date(): this.$route + new Date()
         }
     }
 }

@@ -11,8 +11,9 @@
                     <i class="el-icon-s-unfold"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-plus" command="logout">logout</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-plus" command="addFriend">add user</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-plus" command="logout">Logout</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-plus" command="addFriend">Add Friends</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-plus" command="newChat">New Chat</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             
@@ -34,6 +35,9 @@ export default {
                     break;
                 case 'addFriend':
                     this.$router.push('/add-users');
+                    break
+                case 'newChat':
+                    this.$router.push('/new-chat');
             }
         },
     },

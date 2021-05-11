@@ -1,7 +1,6 @@
 <template>
     <div class="body">
         <el-header>
-            <span>admin</span>
             <span> {{ this.session.DisplayName }} </span>
             <!-- <span class="el-dropdown-link" @click="toggle">
                 <i class="el-icon-arrow-down el-icon--right"></i>

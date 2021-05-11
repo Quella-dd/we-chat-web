@@ -41,6 +41,9 @@ export default {
                     'name': this.userName,
                     'password': this.password
                 })
+                
+                await this.$store.dispatch('initWs')
+
                 this.$router.push('/index')
             } catch(error) {
                 this.$message.error("登录失败， 请重新登录")

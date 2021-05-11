@@ -15,66 +15,39 @@
 </template>
 
 <script>
-// import PubSub from 'pubsub-js'
-
 export default {
-    name: 'UserInfo',
     data: function() {
         return {
-            messages: [
-                {Content: 'hello world', SourceID: '1', Create_At: '2021-01-01:1'},
-                {Content: 'hello world', SourceID: '1', Create_At: '2021-01-01:2'},
-                {Content: 'hello world', SourceID: '1', Create_At: '2021-01-01:3'},
-                {Content: 'hello world', SourceID: '1', Create_At: '2021-01-01:4'},
-            ],
-            user: {
-                ID: 1
-            }
+            messages: [],
+            session: {},
         }
     },
     methods: {
         getPosition: function(msg) {
-            return msg.SourceID === this.user.ID
+            return msg.OwnerID === this.session.OwnerID;
         },
 
-        // refreshMessages: async function() {
-        //     if (this.$store.state.currentUser && this.$store.state.currentUser.ID) {
-        //         this.messages = (await this.$store.dispatch('getMessage', this.$store.state.currentUser.ID)).data[0]
-        //         if (!this.messages) {
-        //             this.messages = []
-        //         }
-        //     }
-        // },
-
-        // scrollToBottom: function() {
-        //     setTimeout(() => {
-        //         let container = document.getElementsByClassName('listBody')[0]
-        //         container.scrollTop = container.scrollHeight;
-        //     }, 0)
-        // },
+        refreshMessages: async function() {
+            if (this.$store.state.session) {
+                this.messages = await this.$store.dispatch('getMessages', {
+                    'ID': this.$store.state.session.ID
+                })
+            }
+        }
     },
 
-    // computed: {
-    //     getCurrentUser() {
-    //         return this.$store.state.currentUser
-    //     }
-    // },
-
-    // watch: {
-    //     getCurrentUser: async function(newVal, oldValue) {
-    //         await this.refreshMessages();
-    //         this.scrollToBottom()
-    //     }
-    // },
-
-    // mounted: function() {
-    //     PubSub.subscribe('messageSend', this.refreshMessages)
-    //     this.scrollToBottom()
-    // }
+    mounted: async function() {
+        await this.refreshMessages()
+        this.session = this.$store.state.session
+    }
 }
 </script>
 
 <style scoped>
+.list-body {
+    padding: 10px 20px;
+}
+
 .empty-message {
     align-content: center;
 }

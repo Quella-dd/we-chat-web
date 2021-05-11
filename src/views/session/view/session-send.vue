@@ -23,21 +23,18 @@ export default {
     data() {
         return {
             value: '',
-            showRTC: false
         }
     },
 
     methods: {
         sendMesage: function() {
-            // this.$store.dispatch('sendMessage', {
-            //     Type: 0,
-            //     SourceID: JSON.parse(sessionStorage.getItem('user')).ID,
-            //     DestinationID: this.$store.state.currentUser.ID,
-            //     Content: this.value
-            // })
-
-            // PubSub.publish('messageSend', this.value)
-            // this.cleanInputMessage();
+            this.$store.dispatch('sendMessage', {
+                'Content': this.value,
+                'Stype': 0,
+                'OwnerID': this.$store.state.session.OwnerID,
+                'DestinationID': this.$store.state.session.DestinationID
+            })
+            this.cleanInputMessage()
         },
 
         cleanInputMessage: function() {
