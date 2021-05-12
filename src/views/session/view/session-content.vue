@@ -6,7 +6,10 @@
                     <div>
                         <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
                     </div>
-                    <div>{{ message.Content }}</div>
+                    <div class="message-content">
+                        <div class="name">{{ message.OwnerName }}</div>
+                        <div class="content">{{ message.Content }}</div>
+                    </div>
                 </div>
             </div>
         </template>
@@ -33,7 +36,7 @@ export default {
                     'ID': this.$store.state.session.ID
                 })
             }
-        }
+        },
     },
 
     mounted: async function() {
@@ -68,5 +71,15 @@ export default {
     margin-top: 10px;
     background-color: aliceblue;
     border-radius: 15px;
+}
+
+.message-content {
+    display: flex;
+    padding-left: 20px;
+    flex-direction: column;
+}
+
+.content {
+    margin-top: 10px;
 }
 </style>

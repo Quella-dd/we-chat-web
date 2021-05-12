@@ -3,6 +3,9 @@
         <div v-if="sessions.length" class="pannel-list">
             <template v-for="session of sessions">
                 <div :key="session.ID" :class="{'active': isActive(session)}"  @click="upadteSession(session)" class="user-item">
+                    <div v-if="session.RoomID">
+                        Group: {{session.ID}}
+                    </div>
                     <div class="item-left">
                         <i class="ui-icon-50 ui-user-header"></i>
                     </div>

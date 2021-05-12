@@ -30,9 +30,10 @@ export default {
         sendMesage: function() {
             this.$store.dispatch('sendMessage', {
                 'Content': this.value,
-                'Stype': 0,
+                'Stype': this.$store.state.session.Stype,
                 'OwnerID': this.$store.state.session.OwnerID,
-                'DestinationID': this.$store.state.session.DestinationID
+                'DestinationID': this.$store.state.session.DestinationID,
+                'RoomID': this.$store.state.session.RoomID,
             })
             this.cleanInputMessage()
         },

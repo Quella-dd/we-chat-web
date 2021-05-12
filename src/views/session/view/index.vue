@@ -1,10 +1,15 @@
 <template>
     <div class="body">
         <el-header>
-            <span> {{ this.session.DisplayName }} </span>
-            <!-- <span class="el-dropdown-link" @click="toggle">
+            <div v-if="session.RoomID">
+                群聊：<span>{{session.RoomID}}</span>
+            </div>
+            <div v-if="!session.RoomID">
+                <span> {{ this.session.DisplayName }} </span>
+            </div>
+            <span class="el-dropdown-link" @click="toggle">
                 <i class="el-icon-arrow-down el-icon--right"></i>
-            </span> -->
+            </span>
         </el-header>
         <el-main>
             <sessionContent></sessionContent>
@@ -34,6 +39,10 @@ export default {
     methods: {
         refreshSession: function() {
             this.session = this.$store.state.session;
+        },
+
+        toggle: function() {
+
         }
     },
 
