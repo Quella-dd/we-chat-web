@@ -148,21 +148,29 @@ export default new Vuex.Store({
 		},
 
 		getGroup: async function(context, payload) {
-			return Vue.axios.post(`/api/groups/${payload.ID}`)
+			return Vue.axios.get(`/api/group/${payload.ID}`)
+		},
+
+		getGroupInfo: async function(context, payload) {
+			return Vue.axios.get(`/api/group/${payload.ID}?info`)
 		},
 
 		deleteGroup: async function(context, payload) {
-			return Vue.axios.delete(`/api/groups/${payload.ID}`)
+			return Vue.axios.delete(`/api/group/${payload.ID}`)
 		},
 
 		// Group Actions
-		// joinGroup: async function({context}, payload) {
-		// 	return Vue.axios.get('/api/search/users/' + payload.search)
-		// },
+		joinGroup: async function({context}, payload) {
+			return Vue.axios.post(`/api/join/group/${payload.GroupID}`, {
+				UserID: `${payload.UserID}`
+			})
+		},
 
-		// leaveGroup: async function({context}, payload) {
-		// 	return Vue.axios.get('/api/search/users/' + payload.search)
-		// },
+		leaveGroup: async function({context}, payload) {
+			return Vue.axios.post(`/api/leave/group/${payload.GroupID}`, {
+				UserID: `${payload.UserID}`
+			})
+		},
 
 		// Sessions API
 		listSessions: async function(context) {
