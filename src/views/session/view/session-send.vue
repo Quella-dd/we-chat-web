@@ -1,20 +1,16 @@
 <template>
-    <div class="message-textarea">
+    <div>
         <div class="message-action">
             <div class="ui-icon-30 ui-action-icon m-r-10"></div>
             <div class="ui-icon-30 ui-action-picture m-r-10"></div>
             <div class="ui-icon-30 ui-action-vedio"></div>
         </div>
-        <div class="message-content">
-            <el-input 
-                type="textarea"
-                v-model="value"
-                :autosize="{ minRows: 4, maxRows: 8}">
-            </el-input>
-        </div>
-        <div class="message-send">
-            <el-button type="success" @click="sendMesage">sendMessage</el-button>
-        </div>
+        <el-input 
+            type="textarea"
+            v-model="value"
+            :autosize="{ minRows: 4, maxRows: 8}">
+        </el-input>
+        <el-button type="success" @click="sendMesage">sendMessage</el-button>
     </div>
 </template>
 
@@ -25,7 +21,6 @@ export default {
             value: '',
         }
     },
-
     methods: {
         sendMesage: function() {
             this.$store.dispatch('sendMessage', {

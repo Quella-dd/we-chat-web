@@ -1,34 +1,34 @@
 <template>
     <div class="modal-box">
-        <div class="modal-header">
-            <div>New Chat</div>
-            <div class="el-icon-close"></div>
+        <div class="left">
+            <div>
+                <el-input placeholder="搜索" prefix-icon="el-icon-search" v-model="input"></el-input>
+            </div>
+            <div v-if="friends.length">
+                <div class="user-item" v-for="friend of friends" :key="friend.ID">
+                    <input type="checkbox" v-model="friend.checked" @click="checkFriend(e, user)">
+                    <div class="user-item-name">{{friend.Name}}</div>
+                </div>
+            </div>
+            <div v-if="!friends.length">
+                Friends Empty
+            </div>
         </div>
+        <div class="right">
+            <div>
+                发起群聊 未选择联系人
+            </div>
+            <div>
+                <div v-for="friend of getCheckedFriend" :key="friend.ID">
+                    <div>{{friend.Name}}</div>
+                </div>
+            </div>
 
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="Concats" name="first">
-                <div v-if="friends.length">
-                    <el-checkbox-group v-model="checkedFriends">
-                        <el-checkbox v-for="friend of friends" :label="friend.ID" :key="friend.ID">{{friend.Name}}</el-checkbox>
-                    </el-checkbox-group>
-                    <el-button @click="create">OK</el-button>
-                </div>
-                <div v-if="!friends.length">
-                    Friends Empty
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="Groups" name="second">
-                <div v-if="groups.length">
-                    <div class="user-item" v-for="group of groups" :key="group.ID">
-                        <div>{{group.Name}}</div>
-                    </div>
-                </div>
-                <div v-if="!groups.length">
-                    Groups Chat Empty
-                </div>
-            </el-tab-pane>
-        </el-tabs>
-
+            <div>
+                <el-button @click="create">取消</el-button>
+                <el-button @click="cancel">创建</el-button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -36,23 +36,32 @@
 export default {
     data() {
         return {
-            activeName: 'first',
-            groups: [],
-            friends: [],
-            checkedFriends: [],
+            input: '',
+            friends: []
         };
+    },
+    
+    computed: {
+        getCheckedFriend: function() {
+            console.log(this.friends)
+
+            return this.friends.filter(friend => {
+                return friend.checked;
+            });
+        }
     },
 
     methods: {
-        handleClick(tab, event) {
-            console.log(tab, event);
-        },
-
         create() {
-            let group;
-            var strArr = this.checkedFriends.map(function(e){return e.toString()});
+            let group, strArr = [];
 
-            if (this.checkedFriends.length > 1) {
+            this.friends.forEach(element => {
+                if (element.checked) {
+                    strArr.push(element.ID.toString())
+                }
+            });
+
+            if (strArr.length > 1) {
                 group = this.$store.dispatch('createGroup', {
                     'Name': 'new Group',
                     'Childes': strArr
@@ -63,11 +72,19 @@ export default {
                     'RoomID': group.ID
                 })
             }
+        },
+
+        cancel() {
+            
+        },
+
+        checkFriend(e, user) {
+            console.log("event:", e)
+            console.log("User:", user)
         }
     },
 
     mounted: async function() {
-        this.groups = await this.$store.dispatch('listGroups')
         this.friends = (await this.$store.dispatch('listFriends')).map(element => {
             element.checked = false;
             return element;
@@ -77,9 +94,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.user-item {
+.modal-box {
     display: flex;
-    padding: 20px 20px;
-    border-bottom: 1px solid red;
+    height: 50%;
+
+    .left {
+        flex: 1;
+    }
+
+    .right {
+        flex: 1;
+    }
 }
 </style>

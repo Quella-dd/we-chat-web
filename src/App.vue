@@ -30,7 +30,11 @@ export default {
 	color: #2c3e50;
 
 	position: absolute;
-    height: 100%;
-    width: 100%;
+
+    height: 80%;
+	width: 70%;
+	
+	top: 10%;
+	left: 15%;
 }
 </style>

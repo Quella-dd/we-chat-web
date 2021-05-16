@@ -2,58 +2,40 @@
     border: 1px solid black;
     height: 100%;
     width: 100%;
+    display: flex;
 
      > .list-body {
-        width: 20%;
+        border: 1px solid black;
+
+        float: left;
+        padding: 20px 10px;
         z-index: 1000;
-    
-        > .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 20px;
-            border: 1px solid black;
-        }
-    
-        > ul {
-            margin: 0;
-            display: flex;
-            align-content: center;
-            height: 40px;
-            border: 1px solid black;
-
-            > li {
-                flex: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                list-style: none;
-                border-right: 1px solid black;
-
-                > a {
-                    text-decoration-line: none;
-                    color: black;
-                }
-            }
-        }
     }
     
     .list-content {
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 50px);
         
         > .pannel-body {
             display: flex;
             height: 100%;
+            border: 1px solid black;
 
             .pannel-list {
                 width: 20%;
                 height: 100%;
-                overflow-y: scroll;
-
+                overflow-y: auto;
                 border: 1px solid black;
-            
-                > .user-item {
+
+                .search {
+                    height: 39px;
+                    display: flex;
+                    align-content: center;
+                    justify-content: space-between;
+                    padding: 10px 10px;
+                    border-bottom: 1px solid black;
+                }
+
+                .user-item {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
@@ -89,44 +71,71 @@
             .pannel-content {
                 width: 80%;
 
-                .body {
-                    width: 80%;
-                    position: absolute;
-                    top: 0;
-                    right: 0;
+                .el-container {
+                    height: 100%;
+                    width: 100%;
+                    border-left: 1px solid;
 
-                    > .profile {
+                    .el-header {
                         display: flex;
-                        flex-direction: column;
+                        justify-content: space-between;
                         align-items: center;
+                        border-bottom: 1px solid;
+                    }
+                    
+                    .el-header-action {
+                        justify-content: flex-end;
+                    }
+                    
+                    .el-main {
+                        padding: 0;
+                        overflow: auto;
+                        border-bottom: 1px solid;
 
-                        > .profile-img {
-                            width: 200px;
-                            height: 200px;
+                        .right {
+                            border: 1px solid red;
+                            float: right;
+                            height: 100%;
+                            width: 20%;
                         }
-
-                        > .profile-name {
-                            height: 50px;
+    
+                        > .profile {
                             display: flex;
+                            flex-direction: column;
                             align-items: center;
+    
+                            > .profile-img {
+                                width: 200px;
+                                height: 200px;
+                            }
+    
+                            > .profile-name {
+                                height: 50px;
+                                display: flex;
+                                align-items: center;
+                            }
                         }
                     }
+                    
 
                     .el-footer {
-                       padding: 10px 10px;
-                       height: 150px;
+                        padding: 10px 10px;
 
-                       .message-textarea {
-                            .message-action {
-                                display: flex;
-                            }
-                        
-                            .message-send {
-                                position: absolute;
-                                right: 0;
-                            }
-                        
-                            .el-textarea__inner {
+                        .message-action {
+                            display: flex;
+                        }
+                    
+                        button {
+                            position: relative;
+                            float: right;
+                            top: -30px;
+                        }
+
+                        .el-textarea {
+                            overflow: auto;
+                            height: calc(100% -30px);
+
+                            > .el-textarea__inner {
                                 border: none;
                             }
                         }

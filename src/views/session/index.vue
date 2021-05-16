@@ -1,39 +1,61 @@
 <template>
     <div class="pannel-body">
-        <div v-if="sessions.length" class="pannel-list">
-            <template v-for="session of sessions">
-                <div :key="session.ID" :class="{'active': isActive(session)}"  @click="upadteSession(session)" class="user-item">
-                    <div class="item-left">
-                        <i class="ui-icon-50 ui-user-header"></i>
-                    </div>
-                    <div v-if="session.RoomID">
-                        群聊: {{session.ID}}
-                    </div>
-                    <div class="item-right">
-                        <div class="title"> 
-                            <div class="content">{{session.DisplayName}}</div>
-                        </div>
-                        <div class="content">{{session.LatestContent}}</div>
-                    </div>
-                    <div>
-                        <div class="ui-icon-20 ui-icon-delete" @click="deleteSession(session)"></div>
-                    </div>
+        <div class="pannel-list">
+            <div class="search">
+                <div>
+                    <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input"></el-input>
                 </div>
+                <i class="ui-icon ui-icon-40 ui-icon-add" @click="toggleAddUser"></i>
+            </div>
+
+            <template v-if:="addUser">
+                <newChat v-if:="addUser"></newChat>
             </template>
+
+             <div v-if="!sessions.length" class="pannel-list">
+                <div>session列表为空</div>
+            </div>
+            <div v-if="sessions.length">
+                <template v-for="session of sessions">
+                    <div :key="session.ID" :class="{'active': isActive(session)}"  @click="upadteSession(session)" class="user-item">
+                        <div class="item-left">
+                            <i class="ui-icon-50 ui-user-header"></i>
+                        </div>
+                        <div v-if="session.RoomID">
+                            群聊: {{session.ID}}
+                        </div>
+                        <div class="item-right">
+                            <div class="title"> 
+                                <div class="content">{{session.DisplayName}}</div>
+                            </div>
+                            <div class="content">{{session.LatestContent}}</div>
+                        </div>
+                        <div>
+                            <div class="ui-icon-20 ui-icon-delete" @click="deleteSession(session)"></div>
+                        </div>
+                    </div>
+                </template>
+            </div>
         </div>
         <div v-if="sessions.length" class="pannel-content">
             <router-view :key="key"></router-view>
-        </div>
-        <div v-if="!sessions.length" class="pannel-list">
-            <div>session列表为空</div>
         </div>
     </div>
 </template>
 
 <script>
+import newChat from '@/views/popup/new-chat'
+
 export default {
+    components: {
+        newChat
+    },
+
     data: function() {
         return {
+            input: '',
+            addUser: false,
+
             sessions: [],
             session: {}
         }
@@ -59,6 +81,10 @@ export default {
         deleteSession: async function(session) {
             await this.$store.dispatch('deleteSession', session)
             await this.refreshList()
+        },
+
+        toggleAddUser: function() {
+            this.addUser = !this.addUser
         }
     },
 
@@ -73,3 +99,6 @@ export default {
     }
 }
 </script>
+
+
+</style>

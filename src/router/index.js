@@ -40,21 +40,28 @@ export default new Router({
 					}
 				]
 			},
+
+			{
+				path: '/moments',
+				name: 'moments',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/user/index.vue'),
+			},
+
 			{
 				path: '/requests',
 				name: 'requests',
 				component: () => import(/* webpackChunkName: "system" */ '@/views/request/index.vue'),
 			},
-			{
-				path: '/add-users',
-				name: 'add-users',
-				component: () => import(/* webpackChunkName: "system" */ '@/views/popup/add-friends.vue'),
-			},
-			{
-				path: '/new-chat',
-				name: 'new-chat',
-				component: () => import(/* webpackChunkName: "system" */ '@/views/popup/new-chat.vue'),
-			},
+			// {
+			// 	path: '/add-users',
+			// 	name: 'add-users',
+			// 	component: () => import(/* webpackChunkName: "system" */ '@/views/popup/add-friends.vue'),
+			// },
+			// {
+			// 	path: '/new-chat',
+			// 	name: 'new-chat',
+			// 	component: () => import(/* webpackChunkName: "system" */ '@/views/popup/new-chat.vue'),
+			// },
 			
 		]
 	}]
