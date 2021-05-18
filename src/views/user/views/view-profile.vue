@@ -1,13 +1,9 @@
 <template>
-    <div class="body">
-        <div class="profile">
-            <div class="profile-img">
-                <div class="ui-icon-200 ui-user-header"></div>
-            </div>
-            <div class="profile-name">
-                {{getUserName}}
-            </div>
-            <button @click="sendMessage">Message</button>
+    <div class="profile">
+        <i class="ui-icon ui-icon-200 ui-user-header"></i>
+        <div class="profile-name">{{ getUserName }}</div>
+        <div>
+            <el-button @click="sendMessage">发送消息</el-button>
         </div>
     </div>
 </template>
@@ -44,13 +40,17 @@ export default {
 }
 </script>
 
-<style scoped>
-.profile-img {
-    display: flex;
-    width: 30%;
-}
+<style lang="less" scoped>
+.profile {
+    padding: 10% 20px;
 
-.profile-name {
-    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    > .profile-name {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 }
 </style>

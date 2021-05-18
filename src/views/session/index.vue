@@ -7,11 +7,9 @@
                 </div>
                 <i class="ui-icon ui-icon-40 ui-icon-add" @click="toggleAddUser"></i>
             </div>
-
-            <template v-if:="addUser">
-                <newChat v-if:="addUser"></newChat>
-            </template>
-
+            <div v-if="addUser">
+                <newChat></newChat>
+            </div>
              <div v-if="!sessions.length" class="pannel-list">
                 <div>session列表为空</div>
             </div>

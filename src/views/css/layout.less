@@ -93,7 +93,7 @@
                         border-bottom: 1px solid;
 
                         .right {
-                            border: 1px solid red;
+                            border-left: 1px solid black;
                             float: right;
                             height: 100%;
                             width: 20%;
@@ -114,6 +114,10 @@
                                 display: flex;
                                 align-items: center;
                             }
+                        }
+
+                        > .listBody {
+                            flex: 1;
                         }
                     }
                     
@@ -147,15 +151,53 @@
 }
 
 .modal-box {
+    display: flex;
     z-index: 1000;
+
     top: 25%;
     left: 25%;
     width: 50%;
-    max-height: 50%;
+    height: 50%;
+
     position: fixed;
     background-color:white;
-    padding: 20px 20px;
     border: 1px solid black;
+
+    > .list {
+        flex: 1;
+        border-right: 1px solid black;
+        padding: 20px 20px;
+
+        > .el-checkbox-group {
+            display: flex;
+            flex-direction: column;
+
+            > .el-checkbox {
+                display: flex;
+                height: 40px;
+                align-content: center;
+                align-items: center;
+
+                > .el-checkbox__label {
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+
+    > .content {
+        .el-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .el-footer {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    }
 }
 
 .modal-header {

@@ -4,11 +4,13 @@
             <div>添加用户</div>
             <div class="el-icon-close" @click="closeModal"></div>
         </div>
+
         <el-input placeholder="请输入内容"
             v-model="search"
             v-on:input="inputEvent"
             clearable>
         </el-input>
+
         <div class="modal-item">
             <template v-for="user of getSearchUsers">
                 <div class="user-list" :key="user.ID">
@@ -79,3 +81,9 @@ export default {
     }
 }
 </script>
+
+<style lang="less" scoped>
+.modal-box {
+    display: flex;
+}
+</style>
