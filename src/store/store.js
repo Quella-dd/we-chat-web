@@ -126,6 +126,10 @@ export default new Vuex.Store({
 			return Vue.axios.get('/api/requests')
 		},
 
+		getRequest: async function(context, payload) {
+			return Vue.axios.get('/api/request/' + payload.ID)
+		},
+
 		ackRequest: async function(context, payload) {
 			return Vue.axios.post(`/api/request/${payload}`)
 		},

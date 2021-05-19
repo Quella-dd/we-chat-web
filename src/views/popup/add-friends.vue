@@ -5,11 +5,9 @@
             <div class="el-icon-close" @click="closeModal"></div>
         </div>
 
-        <el-input placeholder="请输入内容"
-            v-model="search"
-            v-on:input="inputEvent"
-            clearable>
-        </el-input>
+        <div class="search-item">
+            <el-input placeholder="微信号/名称" v-model="search" v-on:input="inputEvent" clearable></el-input>
+        </div>
 
         <div class="modal-item">
             <template v-for="user of getSearchUsers">
@@ -51,6 +49,7 @@ export default {
                 this.users = (await this.$store.dispatch('searchUsers', {
                     'search': this.search
                 }));
+                console.log(this.users)
             } catch (e) {
                 this.users = []
             }
@@ -61,6 +60,7 @@ export default {
             this.closeModal()
         },
 
+        // FIXME
         beenFriend: function(user) {
             return (this.$store.state.user.Relations || []).some(relation => {
                 return relation == user.ID;
@@ -85,5 +85,10 @@ export default {
 <style lang="less" scoped>
 .modal-box {
     display: flex;
+    flex-direction: column;
+
+    > .search-item {
+        padding: 10px 20px;
+    }
 }
 </style>

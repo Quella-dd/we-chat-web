@@ -7,35 +7,36 @@
                 </div>
                 <i class="ui-icon ui-icon-40 ui-icon-add" @click="toggleAddUser"></i>
             </div>
-            <div v-if="addUser">
+
+            <template v-if="addUser">
                 <newChat></newChat>
-            </div>
-             <div v-if="!sessions.length" class="pannel-list">
+            </template>
+
+             <div v-if="!sessions.length" class="empty-content">
                 <div>session列表为空</div>
             </div>
-            <div v-if="sessions.length">
-                <template v-for="session of sessions">
-                    <div :key="session.ID" :class="{'active': isActive(session)}"  @click="upadteSession(session)" class="user-item">
+
+            <template v-if="sessions.length">
+                <div v-for="session of sessions" :key="session.ID">
+                    <div class="user-item" :class="{'active': isActive(session)}" @click="upadteSession(session)">
                         <div class="item-left">
                             <i class="ui-icon-50 ui-user-header"></i>
                         </div>
-                        <div v-if="session.RoomID">
-                            群聊: {{session.ID}}
-                        </div>
+                        <div v-if="session.RoomID">群聊: {{session.ID}}</div>
                         <div class="item-right">
                             <div class="title"> 
                                 <div class="content">{{session.DisplayName}}</div>
                             </div>
                             <div class="content">{{session.LatestContent}}</div>
                         </div>
-                        <div>
-                            <div class="ui-icon-20 ui-icon-delete" @click="deleteSession(session)"></div>
-                        </div>
+                        <div class="ui-icon-20 ui-icon-delete" @click="deleteSession(session)"></div>
                     </div>
-                </template>
-            </div>
+                    <hr>
+                </div>
+            </template>
         </div>
-        <div v-if="sessions.length" class="pannel-content">
+
+        <div class="pannel-content">
             <router-view :key="key"></router-view>
         </div>
     </div>
@@ -74,6 +75,9 @@ export default {
 
         refreshList: async function() {
             this.sessions = await this.$store.dispatch('listSessions')
+            if (!this.sessions) {
+                this.sessions = [];
+            }
         },
 
         deleteSession: async function(session) {
@@ -97,6 +101,3 @@ export default {
     }
 }
 </script>
-
-
-</style>

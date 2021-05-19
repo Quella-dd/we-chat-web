@@ -9,7 +9,7 @@
                     <el-checkbox v-for="friend of friends" :label="JSON.stringify(friend)" :key="JSON.stringify(friend)">{{friend.Name}}</el-checkbox>
                 </el-checkbox-group>
             </template>
-            <div v-if="!friends.length">
+            <div v-if="!friends.length" class="empty-content">
                 Friends Empty
             </div>
         </div>
@@ -53,7 +53,7 @@ export default {
                 group = this.$store.dispatch('createGroup', {
                     'Name': 'new Group',
                     'Childes': strArr
-                })
+                });
 
                 this.$store.dispatch('createSession', {
                     'Stype': 1,

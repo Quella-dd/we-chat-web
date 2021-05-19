@@ -7,23 +7,23 @@ export default new Router({
 	routes: [{
 		path: '/',
 		name: 'Login',
-		component: () => import(/* webpackChunkName: "system" */ '@/views/login/index.vue'),
+		component: () => import(/* webpackChunkName: "system" */ '@/views/login.vue'),
 	},
 	{
 		path: '/index',
 		name: 'Index',
+		redirect: '/sessions',
 		component: () => import(/* webpackChunkName: "system" */ '@/views/index.vue'),
-
 		children: [
 			{
 				path: '/sessions',
 				name: 'sessions',
-				component: () => import(/* webpackChunkName: "system" */ '@/views/session/index.vue'),
+				component: () => import(/* webpackChunkName: "system" */ '@/views/sessions.vue'),
 				children: [
 					{
 						path: '/sessions/:id',
-						name: 'sessions', 
-						component: () => import(/* webpackChunkName: "system" */ '@/views/session/view/index')
+						name: 'session-profile', 
+						component: () => import(/* webpackChunkName: "system" */ '@/views/session/view-profile')
 
 					},
 				]
@@ -31,38 +31,32 @@ export default new Router({
 			{
 				path: '/users',
 				name: 'users',
-				component: () => import(/* webpackChunkName: "system" */ '@/views/user/index.vue'),
+				component: () => import(/* webpackChunkName: "system" */ '@/views/users.vue'),
 				children: [
 					{
 						path: '/users/:id',
-						name: 'users', 
-						component: () => import(/* webpackChunkName: "system" */ '@/views/user/views/view-profile')
+						name: 'user-profile', 
+						component: () => import(/* webpackChunkName: "system" */ '@/views/user/view-profile')
 					}
 				]
 			},
-
-			{
-				path: '/moments',
-				name: 'moments',
-				component: () => import(/* webpackChunkName: "system" */ '@/views/user/index.vue'),
-			},
-
 			{
 				path: '/requests',
 				name: 'requests',
-				component: () => import(/* webpackChunkName: "system" */ '@/views/request/index.vue'),
+				component: () => import(/* webpackChunkName: "system" */ '@/views/requests.vue'),
+				children: [
+					{
+						path: '/requests/:id',
+						name: 'request-profile',
+						component: () => import(/* webpackChunkName: "system" */ '@/views/request/view-profile')
+					}
+				]
 			},
-			// {
-			// 	path: '/add-users',
-			// 	name: 'add-users',
-			// 	component: () => import(/* webpackChunkName: "system" */ '@/views/popup/add-friends.vue'),
-			// },
-			// {
-			// 	path: '/new-chat',
-			// 	name: 'new-chat',
-			// 	component: () => import(/* webpackChunkName: "system" */ '@/views/popup/new-chat.vue'),
-			// },
-			
+			{
+				path: '/moments',
+				name: 'moments',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/moments.vue'),
+			},
 		]
 	}]
 })

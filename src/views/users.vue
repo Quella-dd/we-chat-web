@@ -7,23 +7,25 @@
 				</div>
 				<i class="ui-icon ui-icon-40 ui-icon-add" @click="toggleAddFriend"></i>
 			</div>
-			<div v-if="addFriend">
+
+			<template v-if="addFriend">
 				<AddFriend></AddFriend>
-			</div>
+			</template>
+
 			<template v-if="users.length">
 				<div v-for="user of getFriends" :key="user.ID">
-					<div :key="user.ID" :class="{'active': isActive(user)}"  @click="upadteUser(user)" class="user-item">
+					<div class="user-item" :class="{'active': isActive(user)}" @click="upadteUser(user)" >
 						<div class="ui-icon-50 ui-user-header"></div>
-						<div class="title">
-							{{user.Name}}
-						</div>
+						<div class="title">{{user.Name}}</div>
 					</div>
+					<hr>
 				</div>
 			</template>
-			<div v-if="!users.length" class="pannel-list">
+
+			<div v-if="!users.length" class="empty-content">
 				<div>用户列表为空</div>
 			</div>
-    	</div>
+		</div>
 		<div class="pannel-content">
 			<router-view :key="key"></router-view>
 		</div>
