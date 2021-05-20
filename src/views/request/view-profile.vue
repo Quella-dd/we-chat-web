@@ -1,9 +1,12 @@
 <template>
     <div class="profile">
-        <div>aaaa</div>
+        <div>{{request.User.Name}}</div>
         <hr>
-        <div>
-            <div>bbbb</div>
+        <div>{{request.Request.Content}}</div>
+        <div>{{request.Request.CreatedAt}}</div>
+
+        <div v-if="!request.Status">
+            <el-button type="primary" @click="ackRequest">同意请求</el-button>
         </div>
     </div>
 </template>
@@ -16,17 +19,21 @@ export default {
         }
     },
 
-    computed: {
-        getUserName: function() {
-            return this.request.Name;
+    methods: {
+        async ackRequest() {
+            await this.$store.dispatch('ackRequest', this.request.Request.ID)
+            await this.refreshRequest()
         },
+
+        async refreshRequest() {
+            this.request = await this.$store.dispatch('getRequest', {
+                'ID': this.$route.params.id
+            });
+        }
     },
 
     mounted: async function() {
-        this.request = await this.$store.dispatch('getRequest', {
-            'ID': this.$route.params.id
-        });
-        console.log(this.request)
+        await this.refreshRequest()
     }
 }
 </script>
@@ -39,9 +46,8 @@ export default {
     flex-direction: column;
     justify-content: center;
 
-    > .profile-name {
-        margin-top: 20px;
-        margin-bottom: 20px;
+    hr {
+        width: 100%;
     }
 }
 </style>

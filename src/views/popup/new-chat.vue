@@ -14,17 +14,15 @@
             </div>
         </div>
         <el-container class="content">
-            <el-header>
-                发起群聊 未选择联系人
-            </el-header>
+            <el-header> 发起群聊 未选择联系人</el-header>
             <el-main>
                 <div v-for="friend of checkedFriends" :key="JSON.parse(friend).ID">
                     <div>{{JSON.parse(friend).Name}}</div>
                 </div>
             </el-main>
             <el-footer>
-                <el-button @click="create">取消</el-button>
-                <el-button @click="cancel">创建</el-button>
+                <el-button @click="cancel">取消</el-button>
+                <el-button type="primary" @click="create">创建</el-button>
             </el-footer>
         </el-container>
     </div>
@@ -41,34 +39,30 @@ export default {
     },
 
     methods: {
-        create() {
-            let group, strArr = [];
-
+        async create() {
+            let strArr = [];
             this.checkedFriends.forEach(e => {
                 strArr.push(JSON.parse(e).ID.toString);
             });
-
             if (strArr.length > 1) {
-                // 创建群聊
-                group = this.$store.dispatch('createGroup', {
+                let group = await this.$store.dispatch('createGroup', {
                     'Name': 'new Group',
                     'Childes': strArr
                 });
-
-                this.$store.dispatch('createSession', {
+                await this.$store.dispatch('createSession', {
                     'Stype': 1,
-                    'RoomID': group.ID
+                    'RoomID': `${group.ID}`
                 })
             } else {
-                // 创建私聊
                 this.$store.dispatch('createSession', {
                     'DestinationID': strArr[0]
                 })
             }
+            this.cancel()
         },
 
         cancel() {
-            
+            this.$emit('close')
         }
     },
 

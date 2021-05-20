@@ -2,24 +2,28 @@
     <div class="moment">
         <div class="header">
             <img src="@/css/icon/back-group.png">
+            <div class="header-action">
+                <i class="ui-icon ui-icon-30 ui-icon-photo" @click="togger"></i>
+                <template v-if="active">
+                    <moment v-on:close="togger"></moment>
+                </template>
+            </div>
         </div>
-        
         <div class="moment-list">
             <div class="moment-item" v-for="moment of moments" :key="moment.id">
                 <div class="avator">
                     <i class="ui-icon ui-moment-avator ui-icon-40"></i>
                 </div>
                 <div class="content">
-                    <div class="user-name">{{ moment.name }}</div>
-                    <div class="user-content">{{ moment.content }}</div>
+                    <div class="user-name">{{ moment.OwnerName }}</div>
+                    <div class="user-content">{{ moment.Content }}</div>
 
                     <div class="flex">
-                        <div class="time">{{ moment.create_time }}</div>
+                        <div class="time">{{ moment.CreatedAt }}</div>
                         <div class="action">
                             <i class="ui-icon ui-icon-20 ui-icon-profile"></i>
                         </div>
                     </div>
-
                     <hr>
                 </div>
             </div>
@@ -28,16 +32,29 @@
 </template>
 
 <script>
+import moment from '@/views/popup/create-moment'
+
 export default {
+    components: {
+        moment
+    },
+
     data() {
         return {
-            moments: [
-                {id: 1, name: "zhangsan", content: "i'm 张三， this is my first moment", create_time: "2021-1-1"},
-                {id: 2, name: "lisi", content: "i'm lisi this is my first moment", create_time: "2021-1-1"},
-                {id: 3, name: "admin", content: "i'm admin this is my first moment", create_time: "2021-1-1"},
-                {id: 4, name: "wangmazi", content: "i'm wangmazi this is my first moment", create_time: "2021-1-1"},
-            ]
+            moments: [],
+            active: false
         }
+    },
+    
+    methods: {
+        togger() {
+            this.active = !this.active;
+        }
+    },
+
+    mounted: async function() {
+        this.moments = await this.$store.dispatch('listMoments')
+        console.log(this.moments)
     }
 }
 </script>
@@ -50,6 +67,14 @@ export default {
         img {
             width: 100%;
             height: 200px;
+        }
+
+        > .header-action {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
         }
     }
 

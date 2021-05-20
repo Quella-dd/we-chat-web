@@ -6,9 +6,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 
 import '@/css/icon.less'
-
 import '@/css/layout.less'
 import '@/css/side-bar.less'
+
+import event from './js/pubus'
+Vue.use(event)
 
 import router from './router'
 import store from './store/store'

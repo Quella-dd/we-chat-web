@@ -209,6 +209,35 @@ export default new Vuex.Store({
 
 		getMessages: async function(context, payload) {
 			return Vue.axios.get('/api/messages/' + payload.ID)
+		},
+
+		listMoments: async function(context, payload) {
+			return Vue.axios.get('/api/moments')
+		},
+
+		getMoment: async function(contenxt, payload) {
+			return Vue.axios.get('/api/moment/' + payload.ID)
+		},
+
+		createMoment: async function(context, payload) {
+			return Vue.axios.post('/api/moment', payload)
+		},
+
+		deleteMoment: async function(context, payload) {
+			return Vue.axios.delete('/api/moment/' + payload.ID)
+		},
+
+		updateMoment: async function(context, payload) {
+			return Vue.axios.put('/api/moment/' + payload.ID, payload.Action)
+		},
+
+
+		createComment: async function(context, payload) {
+			return Vue.axios.post('/api/comment')
+		},
+
+		deleteComment: async function(context, payload) {
+			return Vue.axios.delete('/api/comment/' + payload.ID)
 		}
 	}
 })

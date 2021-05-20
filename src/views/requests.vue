@@ -41,16 +41,6 @@ export default {
             this.requests = await this.$store.dispatch('listRequests')
         },
 
-        async ackRequest(request) {
-            await this.$store.dispatch('ackRequest', request.ID)
-            await this.refreshRequestList()
-        },
-
-        async notAllowRequest(request) {
-            await this.$store.dispatch('deleteRequest', request.ID)
-            await this.refreshRequestList()
-        },
-
         updateRequest(request) {
             this.$router.push('/requests/' + request.ID)
         }

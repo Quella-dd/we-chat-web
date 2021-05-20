@@ -37,12 +37,46 @@ export default {
                 })
             }
         },
+
+        // initWebSocket() {
+        //     this.websock = new WebSocket("ws://127.0.0.1:10086/event?token=" + sessionStorage.getItem('token'));
+
+        //     this.websock.onmessage = this.websocketonmessage;
+        //     this.websock.onopen = this.websocketonopen;
+        //     this.websock.onerror = this.websocketonerror;
+        //     this.websock.onclose = this.websocketclose;
+        // },
+
+        // websocketonopen() {
+        //     console.log("ws 连接成功")
+        // },
+
+        // websocketonerror() {
+        //     this.initWebSocket();
+        // },
+
+        // websocketonmessage(e) {
+        //     const redata = JSON.parse(e.data);
+        //     console.log(redata)
+        // },
+
+        // websocketsend(Data) {
+        //     this.websock.send(Data);
+        // },
+
+        // websocketclose(e) {
+        //     console.log('断开连接',e);
+        // },
     },
 
     mounted: async function() {
         await this.refreshMessages()
         this.session = this.$store.state.session
-    }
+    },
+    created() {
+        // this.initWebSocket();
+    },
+
 }
 </script>
 

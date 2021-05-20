@@ -9,7 +9,7 @@
             </div>
 
             <template v-if="addUser">
-                <newChat></newChat>
+                <newChat v-on:close="toggleAddUser"></newChat>
             </template>
 
              <div v-if="!sessions.length" class="empty-content">

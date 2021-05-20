@@ -5,11 +5,11 @@
 				<div>
 					<el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input"></el-input>
 				</div>
-				<i class="ui-icon ui-icon-40 ui-icon-add" @click="toggleAddFriend"></i>
+				<i class="ui-icon ui-icon-40 ui-icon-add" @click="toggle"></i>
 			</div>
 
 			<template v-if="addFriend">
-				<AddFriend></AddFriend>
+				<AddFriend v-on:close="toggle"></AddFriend>
 			</template>
 
 			<template v-if="users.length">
@@ -50,7 +50,7 @@ export default {
 	},
 
 	methods: {
-		toggleAddFriend: function() {
+		toggle: function() {
 			this.addFriend = !this.addFriend;
 		},
 

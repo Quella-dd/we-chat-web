@@ -2,20 +2,16 @@
     <div class="modal-box">
         <div class="modal-header">
             <div>添加用户</div>
-            <div class="el-icon-close" @click="closeModal"></div>
+            <div class="el-icon-close" @click="close"></div>
         </div>
-
         <div class="search-item">
             <el-input placeholder="微信号/名称" v-model="search" v-on:input="inputEvent" clearable></el-input>
         </div>
-
         <div class="modal-item">
             <template v-for="user of getSearchUsers">
                 <div class="user-list" :key="user.ID">
                     <div>{{ user.Name }}</div>
-                    <div v-if="beenFriend(user)">
-                        已经是好友了
-                    </div>
+                    <div v-if="beenFriend(user)">已经是好友了</div>
                     <div v-if="!beenFriend(user)">
                         <el-button type="primary" @click="addFriend(user)">添加好友</el-button>
                     </div>
@@ -57,7 +53,7 @@ export default {
 
         addFriend: async function(user) {
             await this.$store.dispatch('addFriend', user.ID)
-            this.closeModal()
+            this.close()
         },
 
         // FIXME
@@ -67,8 +63,8 @@ export default {
             });
         },
 
-        closeModal: function() {
-            this.$emit("closeme"); 
+        close: function() {
+            this.$emit('close')
         }
     },
 
@@ -89,6 +85,10 @@ export default {
 
     > .search-item {
         padding: 10px 20px;
+    }
+
+    .el-icon-close {
+        cursor: pointer;
     }
 }
 </style>

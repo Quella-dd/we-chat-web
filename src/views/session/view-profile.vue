@@ -6,7 +6,7 @@
                     群聊：<span>{{session.RoomID}}</span>
                 </div>
                 <div v-if="!session.RoomID">
-                    <span> {{ this.session.DisplayName }} </span>
+                    <span>{{ this.session.DisplayName }}</span>
                 </div>
             </div>
             <div v-if="session.Stype" class="el-header-action" @click="toggle">
@@ -16,7 +16,7 @@
         <el-main>
             <sessionContent></sessionContent>
             <div v-if="showProfile" class="right">
-                <sessionProfile ></sessionProfile>
+                <sessionProfile></sessionProfile>
             </div>
         </el-main>
         <el-footer height="150px">
