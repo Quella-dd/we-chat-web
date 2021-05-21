@@ -10,7 +10,7 @@ import '@/css/layout.less'
 import '@/css/side-bar.less'
 
 import event from './js/pubus'
-Vue.use(event)
+Vue.prototype.$event = event
 
 import router from './router'
 import store from './store/store'

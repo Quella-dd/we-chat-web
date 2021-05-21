@@ -57,6 +57,11 @@ export default new Router({
 				name: 'moments',
 				component: () => import(/* webpackChunkName: "system" */ '@/views/moments.vue'),
 			},
+			{
+				path: '/setting',
+				name: 'setting',
+				component: () => import(/* webpackChunkName: "system" */ '@/views/setting.vue'),
+			},
 		]
 	}]
 })

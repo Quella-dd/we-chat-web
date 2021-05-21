@@ -49,12 +49,17 @@ export default {
     methods: {
         togger() {
             this.active = !this.active;
+        },
+
+        refreshMoments: async function() {
+            console.log("refreshMoments")
+            this.moments = await this.$store.dispatch('listMoments')
         }
     },
 
     mounted: async function() {
-        this.moments = await this.$store.dispatch('listMoments')
-        console.log(this.moments)
+        await this.refreshMoments()
+        this.$event.sub('moment', this.refreshMoments)
     }
 }
 </script>

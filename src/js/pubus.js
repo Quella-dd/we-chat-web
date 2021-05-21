@@ -1,9 +1,9 @@
-export default function () {
+module.exports = function () {
     let ws;
     let subscribers = {};
 
     function connect() {
-        let ws = new WebSocket("ws://localhost:10086?token=" + sessionStorage.getItem('token'))
+        let ws = new WebSocket("ws://localhost:10086/event?token=" + sessionStorage.getItem('token'))
 
         ws.onopen = function() {
             console.log('websocket connect success');
@@ -25,10 +25,12 @@ export default function () {
     }
 
     function _pub(msg) {
-        let topic = msg.topic;
+        debugger
+        let data = JSON.parse(msg.data);
+        let topic = data.Topic;
         if (subscribers[topic] && subscribers[topic].length) {
             subscribers[topic].forEach(fn => {
-                fn(msg.payload)
+                fn(data.Conent)
             });
         }
     }
@@ -40,7 +42,7 @@ export default function () {
             }
             
             var fns = subscribers[topic];
-            if (fns.length) {
+            if (fns && fns.length) {
                 fns.push(fn);
                 return;
             }
@@ -59,6 +61,8 @@ export default function () {
                     }
                 }
             }
-        }
+        },
+
+        pub: _pub
     }
-} 
+}()

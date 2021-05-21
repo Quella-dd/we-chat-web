@@ -110,8 +110,8 @@
                     
                     .el-main {
                         padding: 0;
-                        overflow: auto;
                         border-bottom: 1px solid;
+                        overflow: hidden;
 
                         .right {
                             border-left: 1px solid black;
@@ -137,9 +137,14 @@
                             }
                         }
 
-                        > .listBody {
+                        .listBody {
                             flex: 1;
-                            padding: 10px 20px;
+
+                            > .content {
+                                padding: 10px 20px;
+                                height: calc(100% - 2px);
+                                overflow: auto;
+                            }
                         }
                     }
                     

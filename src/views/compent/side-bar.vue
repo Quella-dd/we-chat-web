@@ -23,6 +23,11 @@
                 <i class="ui-icon ui-icon-30" :class="[active('moments')?'ui-icon-relation-active':'ui-icon-relation']"></i>
             </router-link>
         </div>
+        <div class="side-bar-item m-t-20">
+            <router-link to="setting">
+                <i class="ui-icon ui-icon-30 ui-icon-setting"></i>
+            </router-link>
+        </div>
     </div>
 </template>
 

@@ -26,6 +26,15 @@ export default {
                 OwnerID: `${this.$store.state.user.ID}`,
                 Content: this.content
             })
+
+            this.$event.pub({
+                data: JSON.stringify({
+                    Topic: 'moment',
+                    Conent: 'creat a new moment'
+                })
+            })
+
+            this.$emit('close')
         },
         
         cancel() {

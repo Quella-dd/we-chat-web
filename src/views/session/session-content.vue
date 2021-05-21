@@ -1,18 +1,21 @@
 <template :key="this.$store.state.currentUser.ID">
     <div class="listBody">
-        <template v-for="message of messages">
-            <div class="item-default" v-bind:class="{'item-right': getPosition(message)}" v-bind:key="message.Create_At">
-                <div class="message-item">
-                    <div>
-                        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                    </div>
-                    <div class="message-content">
-                        <div class="name">{{ message.OwnerName }}</div>
-                        <div class="content">{{ message.Content }}</div>
+        <div class="content">
+            <template v-for="message of messages">
+                <div class="item-default" v-bind:class="{'item-right': getPosition(message)}" v-bind:key="message.Create_At">
+                    <div class="message-item">
+                        <div>
+                            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                        </div>
+                        <div class="message-content">
+                            <div class="name">{{ message.OwnerName }}</div>
+                            <div class="content">{{ message.Content }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </template>
+            </template>
+            <div id="bottom"></div>
+        </div>
         <div v-if="!messages.length" class="empty-message">no message to show</div>
     </div>
 </template>
@@ -36,47 +39,17 @@ export default {
                     'ID': this.$store.state.session.ID
                 })
             }
+
+            let element = document.getElementById('bottom')
+            element.scrollIntoView()
         },
-
-        // initWebSocket() {
-        //     this.websock = new WebSocket("ws://127.0.0.1:10086/event?token=" + sessionStorage.getItem('token'));
-
-        //     this.websock.onmessage = this.websocketonmessage;
-        //     this.websock.onopen = this.websocketonopen;
-        //     this.websock.onerror = this.websocketonerror;
-        //     this.websock.onclose = this.websocketclose;
-        // },
-
-        // websocketonopen() {
-        //     console.log("ws 连接成功")
-        // },
-
-        // websocketonerror() {
-        //     this.initWebSocket();
-        // },
-
-        // websocketonmessage(e) {
-        //     const redata = JSON.parse(e.data);
-        //     console.log(redata)
-        // },
-
-        // websocketsend(Data) {
-        //     this.websock.send(Data);
-        // },
-
-        // websocketclose(e) {
-        //     console.log('断开连接',e);
-        // },
     },
 
     mounted: async function() {
+        this.$event.sub("message", this.refreshMessages);
         await this.refreshMessages()
         this.session = this.$store.state.session
     },
-    created() {
-        // this.initWebSocket();
-    },
-
 }
 </script>
 
@@ -103,14 +76,14 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 10px;
-    background-color: aliceblue;
     border-radius: 15px;
 }
 
 .message-content {
     display: flex;
-    padding-left: 20px;
     flex-direction: column;
+    background-color: aliceblue;
+    padding: 10px 20px;
 }
 
 .content {
